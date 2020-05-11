@@ -93,6 +93,11 @@ init =
           , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
           , position = Right
           }
+        , { text_ = "เอ๊า"
+          , name = Just "joyaaaaaa."
+          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
+          , position = Left
+          }
         ]
     , chats = []
     }
