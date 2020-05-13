@@ -117,6 +117,8 @@ init =
                           , position = Left
                           }
                         ]
+
+                    -- Reminder : If chats.length == data.length -> END CHAPTER
                     , chats = []
                     }
           }
