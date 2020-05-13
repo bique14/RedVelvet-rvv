@@ -31,6 +31,7 @@ init =
         ( tmd, _ ) =
             TableContents.init
     in
+    -- ( { state = Novel nmd }, Cmd.none )
     ( { state = TableContents tmd }, Cmd.none )
 
 

@@ -97,9 +97,9 @@ init =
                     }
           }
         ]
-    , description = "RENE YEM"
+    , description = "I've got a ticket for a world where we belong So would you be my baby? #ReneYem"
     , title = "Fly me to the moon 🌕"
-    , image = "String"
+    , image = "https://s359.kapook.com/pagebuilder/4da124f1-80a6-4278-b9b3-9b179d8582e4.jpg"
     , author = "me"
     }
 
@@ -113,4 +113,49 @@ update msg model =
 
 view : (Msg -> msg) -> Model -> Html msg
 view toMsg model =
-    div [] [ text "Table of contents :)" ]
+    div [ class "bg-red-300 h-full w-1/2 m-auto" ]
+        [ div [ class "flex flex-col h-full" ]
+            [ viewTitle model
+
+            -- , viewChats model
+            -- , viewButton toMsg
+            ]
+        ]
+
+
+viewTitle : Model -> Html msg
+viewTitle { title, author, description, image } =
+    div
+        [ class "flex flex-col relative h-full"
+        ]
+        [ img
+            [ src image
+            , class "absolute w-full h-full object-cover"
+            , style "filter" "blur(2px)"
+            ]
+            []
+        , div [ class "z-10 flex flex-col text-white justify-center text-center h-full" ]
+            [ h1 [ class "font-bold text-4xl" ] [ text title ]
+            , span [ class "text-xl inline-block my-2" ] [ text author ]
+            , span [ class "text-xl inline-block my-2" ] [ text description ]
+            ]
+        , viewTags
+        ]
+
+
+viewTags : Html msg
+viewTags =
+    div [ class "z-10 my-4" ]
+        [ div [ class "border-white border-t border-b text-center text-red-600 font-bold py-4 mx-10" ]
+            [ span [] [ text "ทุ่งดอกไม้" ]
+            ]
+        , div [ class "flex justify-center my-3" ] <|
+            List.map
+                (\t ->
+                    span [ class "border border-red-600 rounded text-red-600 font-bold px-2 py-1 mx-1" ]
+                        [ text t ]
+                )
+                [ "Irene", "Yeri", "ReneYem", "RedVelvet" ]
+        , div [ class "text-white text-center" ]
+            [ span [] [ text "# 14 บท" ] ]
+        ]
