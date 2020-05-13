@@ -23,9 +23,9 @@ type Msg
 init : Model
 init =
     { novel =
-        [ { image = "String"
+        [ { image = "https://th-test-11.slatic.net/p/c8748f5037839db2b4c85d88682907b2.jpg_340x340q80.jpg_.webp"
           , chapter = 1
-          , title = "Fly me to the moon 🌕"
+          , title = "Prolouge"
           , description = "- Prologue -"
           , body =
                 Novel.Chat
@@ -113,13 +113,10 @@ update msg model =
 
 view : (Msg -> msg) -> Model -> Html msg
 view toMsg model =
-    div [ class "bg-red-300 h-full w-1/2 m-auto" ]
+    div [ class "h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
-            [ viewTitle model
-
-            -- , viewChats model
-            -- , viewButton toMsg
-            ]
+            [ viewTitle model ]
+        , viewChapters model.novel
         ]
 
 
@@ -134,7 +131,7 @@ viewTitle { title, author, description, image } =
             , style "filter" "blur(2px)"
             ]
             []
-        , div [ class "z-10 flex flex-col text-white justify-center text-center h-full" ]
+        , div [ class "z-10 flex flex-col text-white justify-center text-center h-full mx-10" ]
             [ h1 [ class "font-bold text-4xl" ] [ text title ]
             , span [ class "text-xl inline-block my-2" ] [ text author ]
             , span [ class "text-xl inline-block my-2" ] [ text description ]
@@ -159,3 +156,23 @@ viewTags =
         , div [ class "text-white text-center" ]
             [ span [] [ text "# 14 บท" ] ]
         ]
+
+
+viewChapters : List Novel.Novel -> Html msg
+viewChapters novel =
+    div [ class "mt-2" ] <|
+        List.map
+            (\n ->
+                div [ class "flex flex-row h-48 mb-2" ]
+                    [ div [ class "w-40" ]
+                        [ img [ src n.image, class "h-full w-full object-cover" ] []
+                        ]
+                    , div [ class "flex flex-col mt-2 mx-10" ]
+                        [ span [ class "text-red-600" ]
+                            [ text <| ("#" ++ String.fromInt n.chapter) ]
+                        , span [ class "font-bold" ] [ text n.title ]
+                        , span [ class "text-gray-500" ] [ text n.description ]
+                        ]
+                    ]
+            )
+            novel
