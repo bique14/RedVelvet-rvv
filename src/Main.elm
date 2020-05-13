@@ -107,8 +107,8 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Read ->
-            case List.take 1 model.data of
-                [ x ] ->
+            case model.data of
+                x :: _ ->
                     let
                         a_ =
                             Array.push x (Array.fromList model.chats)
