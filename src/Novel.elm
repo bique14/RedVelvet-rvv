@@ -1,5 +1,6 @@
 module Novel exposing
-    ( Novel
+    ( Model
+    , Novel
     , NovelType(..)
     , Position(..)
     , init

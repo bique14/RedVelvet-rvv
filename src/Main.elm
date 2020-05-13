@@ -3,7 +3,9 @@ module Main exposing (main)
 import Browser
 import Html exposing (..)
 import Html.Styled exposing (toUnstyled)
-import Pages.Novel as Novel
+import Novel
+import Pages.Novel as NovelPages
+import Pages.TableContents as TableContents
 
 
 type alias Model =
@@ -11,22 +13,25 @@ type alias Model =
 
 
 type State
-    = TableContents
-    | Novel Novel.Model
+    = TableContents TableContents.Model
+    | Novel NovelPages.Model
 
 
 type Msg
-    = NoOp
-    | NovelMsg Novel.Msg
+    = NovelMsg NovelPages.Msg
+    | TableContentsMsg TableContents.Msg
 
 
 init : ( Model, Cmd Msg )
 init =
     let
-        ( md, _ ) =
-            Novel.init
+        ( nmd, _ ) =
+            NovelPages.init
+
+        ( tmd, _ ) =
+            TableContents.init
     in
-    ( { state = Novel md }, Cmd.none )
+    ( { state = TableContents tmd }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -34,12 +39,22 @@ update msg model =
     case ( model.state, msg ) of
         ( Novel model_, NovelMsg msg_ ) ->
             let
-                updated : ( Novel.Model, Cmd Novel.Msg )
+                updated : ( NovelPages.Model, Cmd NovelPages.Msg )
                 updated =
-                    Novel.update msg_ model_
+                    NovelPages.update msg_ model_
             in
             ( { model | state = Novel <| Tuple.first updated }
             , Cmd.map NovelMsg <| Tuple.second updated
+            )
+
+        ( TableContents model_, TableContentsMsg msg_ ) ->
+            let
+                updated : ( TableContents.Model, Cmd TableContents.Msg )
+                updated =
+                    TableContents.update msg_ model_
+            in
+            ( { model | state = TableContents <| Tuple.first updated }
+            , Cmd.map TableContentsMsg <| Tuple.second updated
             )
 
         _ ->
@@ -49,11 +64,11 @@ update msg model =
 view : Model -> Html Msg
 view { state } =
     case state of
-        TableContents ->
-            div [] [ text "table contents" ]
+        TableContents model_ ->
+            map TableContentsMsg <| toUnstyled <| TableContents.view model_
 
         Novel model_ ->
-            map NovelMsg <| toUnstyled <| Novel.view model_
+            map NovelMsg <| toUnstyled <| NovelPages.view model_
 
 
 main : Program () Model Msg
