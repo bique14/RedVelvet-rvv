@@ -25,12 +25,6 @@ type alias NovelType =
     Novel.NovelType
 
 
-type Position
-    = Left
-    | Center
-    | Right
-
-
 type Msg
     = Read
 
@@ -47,18 +41,8 @@ update msg model =
                                 newChats =
                                     Array.push x (Array.fromList chats)
                                         |> Array.toList
-
-                                body_ =
-                                    model.body
-
-                                _ =
-                                    Debug.log "body " body_
-
-                                aa =
-                                    Novel.Chat
                             in
-                            -- { model | chats = newChats, data = List.drop 1 model.data }
-                            model
+                            { model | body = Novel.Chat { data = List.drop 1 data, chats = newChats } }
 
                         _ ->
                             model
@@ -67,26 +51,12 @@ update msg model =
                     model
 
 
-
--- case model.data of
---     x :: _ ->
---         let
---             a_ =
---                 Array.push x (Array.fromList model.chats)
---                     |> Array.toList
---         in
---         { model | chats = a_, data = List.drop 1 model.data }
---     _ ->
-
-
 view : (Msg -> msg) -> Model -> Html msg
 view toMsg model =
     div [ class "bg-red-300 h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle model
             , viewNovelType model
-
-            -- , viewChats model
             , viewButton toMsg
             ]
         ]
