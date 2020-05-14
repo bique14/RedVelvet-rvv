@@ -127,7 +127,7 @@ init =
         , { image = "https://cdn.readawrite.com/publicassets/2137016/images/IMG_20200107_222057.jpg"
           , chapter = 2
           , title = "Fly me to the moon 🌕"
-          , description = "- เวลาเธอยิ้ม -"
+          , description = "- In & Out -"
           , body =
                 Chat
                     { data =
@@ -176,6 +176,14 @@ init =
                     -- Reminder : If chats.length == data.length -> END CHAPTER
                     , chats = []
                     }
+          }
+        , { image = "https://cdn.readawrite.com/publicassets/2137016/images/IMG_20200107_222057.jpg"
+          , chapter = 3
+          , title = "Fly me to the moon 🌕"
+          , description = "- Somethin kinda crazy -"
+          , body =
+                Story
+                    { text_ = "Hello world" }
           }
         ]
     , description = "RENE YEM"

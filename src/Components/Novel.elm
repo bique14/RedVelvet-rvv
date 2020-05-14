@@ -57,7 +57,7 @@ view toMsg onBackClicked model =
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle onBackClicked model
             , viewNovelType model
-            , viewButton toMsg
+            , viewButton toMsg model
             ]
         ]
 
@@ -88,7 +88,7 @@ viewNovelType { body } =
             viewChats chats
 
         Novel.Story { text_ } ->
-            div [] [ text "story" ]
+            div [] [ text "Not develop yet" ]
 
 
 viewChats : List Novel.ChatDetails -> Html msg
@@ -169,16 +169,21 @@ viewBubbles { text_, name, image, position } =
         ]
 
 
-viewButton : (Msg -> msg) -> Html msg
-viewButton toMsg =
-    div
-        [ class "bg-black text-white"
-        , style "height" "20%"
-        ]
-        [ map toMsg <|
-            button
-                [ class "w-full h-full font-bold"
-                , onClick Read
+viewButton : (Msg -> msg) -> Model -> Html msg
+viewButton toMsg { body } =
+    case body of
+        Novel.Chat { data, chats } ->
+            div
+                [ class "bg-black text-white"
+                , style "height" "20%"
                 ]
-                [ text "Tap to read" ]
-        ]
+                [ map toMsg <|
+                    button
+                        [ class "w-full h-full font-bold"
+                        , onClick Read
+                        ]
+                        [ text "Tap to read" ]
+                ]
+
+        Novel.Story { text_ } ->
+            div [ class "hidden" ] []
