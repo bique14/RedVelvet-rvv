@@ -188,6 +188,6 @@ init =
         ]
     , description = "RENE YEM"
     , title = "Fly me to the moon 🌕"
-    , image = "https://s359.kapook.com/pagebuilder/4da124f1-80a6-4278-b9b3-9b179d8582e4.jpg"
+    , image = "https://pbs.twimg.com/media/EX9-dEuVcAEbR96?format=jpg&name=medium"
     , author = "me"
     }
