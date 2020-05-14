@@ -19,6 +19,7 @@ type Model
 type Msg
     = NoOp
     | NovelMsg NovelComponents.Msg
+    | OnBackClicked
 
 
 toNovel : Novel.Novel -> NovelComponents.Model
@@ -66,6 +67,7 @@ view model =
         Novel model_ ->
             NovelComponents.view
                 NovelMsg
+                OnBackClicked
                 model_
 
         Impossible ->

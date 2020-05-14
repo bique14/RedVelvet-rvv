@@ -51,21 +51,32 @@ update msg model =
                     model
 
 
-view : (Msg -> msg) -> Model -> Html msg
-view toMsg model =
+view : (Msg -> msg) -> msg -> Model -> Html msg
+view toMsg onBackClicked model =
     div [ class "bg-red-300 h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
-            [ viewTitle model
+            [ viewTitle onBackClicked model
             , viewNovelType model
             , viewButton toMsg
             ]
         ]
 
 
-viewTitle : Model -> Html msg
-viewTitle { title, description } =
-    div [ class "text-center text-white py-3 bg-black" ]
-        [ h1 [ class "font-bold" ] [ text title ]
+viewTitle : msg -> Model -> Html msg
+viewTitle onBackClicked { title, description } =
+    div [ class "text-center text-white py-3 bg-black relative" ]
+        [ div
+            [ class "absolute w-8"
+            , style "top" "15px"
+            , style "left" "20px"
+            ]
+            [ button
+                [ class "text-red-600 text-2xl font-bold w-full"
+                , onClick onBackClicked
+                ]
+                [ text "<" ]
+            ]
+        , h1 [ class "font-bold" ] [ text title ]
         , span [ class "text-xs" ] [ text description ]
         ]
 
@@ -90,7 +101,6 @@ viewChats chats =
         List.map
             (\c ->
                 viewBubbles c
-             -- div [] []
             )
             chats
 

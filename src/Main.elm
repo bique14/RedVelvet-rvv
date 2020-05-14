@@ -25,27 +25,27 @@ type Msg
 init : ( Model, Cmd Msg )
 init =
     let
-        -- ( nmd, _ ) =
-        --     NovelPages.init
         ( initNovel, _ ) =
             NovelPages.init Novel.init 1
 
-        ( tmd, _ ) =
+        ( tableContentsModel, _ ) =
             TableContents.init
     in
-    -- ( { state = TableContents tmd }, Cmd.none )
-    ( { state = Novel initNovel }, Cmd.none )
+    -- ( { state = Novel initNovel }, Cmd.none )
+    ( { state = TableContents tableContentsModel }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( model.state, msg ) of
-        ( TableContents model_, TableContentsMsg (TableContents.ContentsClicked chapter) ) ->
+        ( TableContents _, TableContentsMsg (TableContents.ContentsClicked chapter) ) ->
             let
-                _ =
-                    Debug.log "chapter" chapter
+                ( initNovel, _ ) =
+                    NovelPages.init Novel.init chapter
             in
-            ( model, Cmd.none )
+            ( { model | state = Novel initNovel }
+            , Cmd.none
+            )
 
         ( TableContents model_, TableContentsMsg msg_ ) ->
             let
@@ -56,6 +56,13 @@ update msg model =
             ( { model | state = TableContents <| Tuple.first updated }
             , Cmd.map TableContentsMsg <| Tuple.second updated
             )
+
+        ( Novel _, NovelMsg NovelPages.OnBackClicked ) ->
+            let
+                ( tableContentsModel, _ ) =
+                    TableContents.init
+            in
+            ( { state = TableContents tableContentsModel }, Cmd.none )
 
         ( Novel model_, NovelMsg msg_ ) ->
             let
