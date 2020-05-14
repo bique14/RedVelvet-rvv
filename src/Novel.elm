@@ -1,5 +1,6 @@
 module Novel exposing
-    ( Model
+    ( ChatDetails
+    , Model
     , Novel
     , NovelType(..)
     , Position(..)
@@ -27,13 +28,13 @@ type alias Novel =
 
 type NovelType
     = Chat
-        { data : List ChatDetail
-        , chats : List ChatDetail
+        { data : List ChatDetails
+        , chats : List ChatDetails
         }
     | Story { text_ : String }
 
 
-type alias ChatDetail =
+type alias ChatDetails =
     { text_ : String
     , name : Maybe String
     , image : Maybe String

@@ -25,14 +25,16 @@ type Msg
 init : ( Model, Cmd Msg )
 init =
     let
-        ( nmd, _ ) =
-            NovelPages.init
+        -- ( nmd, _ ) =
+        --     NovelPages.init
+        ( initNovel, _ ) =
+            NovelPages.init Novel.init 1
 
         ( tmd, _ ) =
             TableContents.init
     in
-    -- ( { state = Novel nmd }, Cmd.none )
-    ( { state = TableContents tmd }, Cmd.none )
+    -- ( { state = TableContents tmd }, Cmd.none )
+    ( { state = Novel initNovel }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

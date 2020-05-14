@@ -1,7 +1,6 @@
 module Components.Novel exposing
     ( Model
     , Msg(..)
-    , init
     , update
     , view
     )
@@ -10,22 +9,20 @@ import Array
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (class, src, style)
 import Html.Styled.Events exposing (onClick)
+import Novel
 
 
 type alias Model =
-    { title : String
+    { image : String
+    , chapter : Int
+    , title : String
     , description : String
-    , data : List Chat
-    , chats : List Chat
+    , body : NovelType
     }
 
 
-type alias Chat =
-    { text_ : String
-    , name : Maybe String
-    , image : Maybe String
-    , position : Position
-    }
+type alias NovelType =
+    Novel.NovelType
 
 
 type Position
@@ -38,91 +35,48 @@ type Msg
     = Read
 
 
-init : Model
-init =
-    { title = "(RENEYEM) Fly me to the moon 🌕"
-    , description = "- Prologue -"
-    , data =
-        [ { text_ = "Hello, world"
-          , name = Just "Me"
-          , image = Just "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/01/a0001799/img/basic/a0001799_main.jpg?20191118104245&q=80&rw=750&rh=536"
-          , position = Right
-          }
-        , { text_ = ":)"
-          , name = Just "Me"
-          , image = Just "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/01/a0001799/img/basic/a0001799_main.jpg?20191118104245&q=80&rw=750&rh=536"
-          , position = Right
-          }
-        , { text_ = "เค้กที่มีสีแดงเข้ม (4)"
-          , name = Nothing
-          , image = Nothing
-          , position = Center
-          }
-        , { text_ = "07:54"
-          , name = Nothing
-          , image = Nothing
-          , position = Center
-          }
-        , { text_ = "ตื่นกันยัง"
-          , name = Just "rene"
-          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-          , position = Left
-          }
-        , { text_ = "ยัง"
-          , name = Just "joyaaaaaa."
-          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
-          , position = Left
-          }
-        , { text_ = "แล้วนี่ใครตอบ"
-          , name = Just "rene"
-          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-          , position = Left
-          }
-        , { text_ = "ตื่นละ"
-          , name = Just "yemmie 🍰"
-          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-          , position = Right
-          }
-        , { text_ = "ทักมาแต่เช้าคือมีไร"
-          , name = Just "yemmie 🍰"
-          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-          , position = Right
-          }
-        , { text_ = "ไม่มีไร"
-          , name = Just "rene"
-          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-          , position = Left
-          }
-        , { text_ = "เอ๊า"
-          , name = Just "yemmie 🍰"
-          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-          , position = Right
-          }
-        , { text_ = "เอ๊า"
-          , name = Just "joyaaaaaa."
-          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
-          , position = Left
-          }
-        ]
-    , chats = []
-    }
-
-
 update : Msg -> Model -> Model
 update msg model =
     case msg of
         Read ->
-            case model.data of
-                x :: _ ->
-                    let
-                        a_ =
-                            Array.push x (Array.fromList model.chats)
-                                |> Array.toList
-                    in
-                    { model | chats = a_, data = List.drop 1 model.data }
+            case model.body of
+                Novel.Chat { data, chats } ->
+                    case data of
+                        x :: _ ->
+                            let
+                                newChats =
+                                    Array.push x (Array.fromList chats)
+                                        |> Array.toList
 
-                _ ->
+                                body_ =
+                                    model.body
+
+                                _ =
+                                    Debug.log "body " body_
+
+                                aa =
+                                    Novel.Chat
+                            in
+                            -- { model | chats = newChats, data = List.drop 1 model.data }
+                            model
+
+                        _ ->
+                            model
+
+                Novel.Story { text_ } ->
                     model
+
+
+
+-- case model.data of
+--     x :: _ ->
+--         let
+--             a_ =
+--                 Array.push x (Array.fromList model.chats)
+--                     |> Array.toList
+--         in
+--         { model | chats = a_, data = List.drop 1 model.data }
+--     _ ->
 
 
 view : (Msg -> msg) -> Model -> Html msg
@@ -130,7 +84,9 @@ view toMsg model =
     div [ class "bg-red-300 h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle model
-            , viewChats model
+            , viewNovelType model
+
+            -- , viewChats model
             , viewButton toMsg
             ]
         ]
@@ -144,8 +100,18 @@ viewTitle { title, description } =
         ]
 
 
-viewChats : Model -> Html msg
-viewChats { chats } =
+viewNovelType : Model -> Html msg
+viewNovelType { body } =
+    case body of
+        Novel.Chat { data, chats } ->
+            viewChats chats
+
+        Novel.Story { text_ } ->
+            div [] [ text "story" ]
+
+
+viewChats : List Novel.ChatDetails -> Html msg
+viewChats chats =
     div
         [ class "bg-gray-900 pt-4 overflow-auto"
         , style "height" "80%"
@@ -153,16 +119,17 @@ viewChats { chats } =
     <|
         List.map
             (\c ->
-                viewBubble c
+                viewBubbles c
+             -- div [] []
             )
             chats
 
 
-viewBubble : Chat -> Html msg
-viewBubble { text_, name, image, position } =
+viewBubbles : Novel.ChatDetails -> Html msg
+viewBubbles { text_, name, image, position } =
     div [ class "my-2 mx-4 text-white" ]
         [ case position of
-            Left ->
+            Novel.Left ->
                 div [ class "flex flex-row flex-start" ]
                     [ case image of
                         Just i ->
@@ -188,13 +155,13 @@ viewBubble { text_, name, image, position } =
                         ]
                     ]
 
-            Center ->
+            Novel.Center ->
                 div [ class "flex justify-center" ]
                     [ span [ class "border border-gray-600 rounded bg-gray-600 px-1" ]
                         [ text text_ ]
                     ]
 
-            Right ->
+            Novel.Right ->
                 div [ class "flex flex-row-reverse" ]
                     [ case image of
                         Just i ->
