@@ -86,10 +86,20 @@ viewChapters contentsClicked novel =
                         [ img [ src n.image, class "h-full w-full object-cover" ] []
                         ]
                     , div [ class "flex flex-col mt-2 mx-10" ]
-                        [ span [ class "text-red-600" ]
-                            [ text <| ("#" ++ String.fromInt n.chapter) ]
+                        [ div [ class "flex flex-row" ]
+                            [ span [ class "text-red-600" ]
+                                [ text <| ("#" ++ String.fromInt n.chapter) ]
+                            , span [ class "mx-2 text-gray-500" ]
+                                [ case n.body of
+                                    Novel.Chat _ ->
+                                        text "แชท"
+
+                                    Novel.Story _ ->
+                                        text "สตอรี่"
+                                ]
+                            ]
                         , span [ class "font-bold" ] [ text n.title ]
-                        , span [ class "text-gray-500" ] [ text n.description ]
+                        , span [ class "text-gray-700" ] [ text n.description ]
                         ]
                     ]
             )
