@@ -36,7 +36,7 @@ view toMsg contentsClicked model =
 
 
 viewTitle : Model -> Html msg
-viewTitle { title, author, description, image } =
+viewTitle { novel, title, author, description, image } =
     div
         [ class "flex flex-col relative h-full"
         ]
@@ -51,12 +51,12 @@ viewTitle { title, author, description, image } =
             , span [ class "text-xl inline-block my-2" ] [ text author ]
             , span [ class "text-xl inline-block my-2" ] [ text description ]
             ]
-        , viewTags
+        , viewTags novel
         ]
 
 
-viewTags : Html msg
-viewTags =
+viewTags : List Novel.Novel -> Html msg
+viewTags novel =
     div [ class "z-10 my-4" ]
         [ div [ class "border-white border-t border-b text-center text-red-600 font-bold py-4 mx-10" ]
             [ span [] [ text "ทุ่งดอกไม้" ]
@@ -69,7 +69,9 @@ viewTags =
                 )
                 [ "Irene", "Yeri", "ReneYem", "RedVelvet" ]
         , div [ class "text-white text-center" ]
-            [ span [] [ text "# 14 บท" ] ]
+            [ span []
+                [ text <| String.concat [ "# ", String.fromInt (List.length novel), " บท" ] ]
+            ]
         ]
 
 
