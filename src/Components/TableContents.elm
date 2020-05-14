@@ -1,7 +1,6 @@
 module Components.TableContents exposing
     ( Model
     , Msg(..)
-    , init
     , update
     , view
     )
@@ -20,90 +19,6 @@ type Msg
     = NoOp
 
 
-init : Model
-init =
-    { novel =
-        [ { image = "https://th-test-11.slatic.net/p/c8748f5037839db2b4c85d88682907b2.jpg_340x340q80.jpg_.webp"
-          , chapter = 1
-          , title = "Prolouge"
-          , description = "- Prologue -"
-          , body =
-                Novel.Chat
-                    { data =
-                        [ { text_ = "Hello, world"
-                          , name = Just "Me"
-                          , image = Just "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/01/a0001799/img/basic/a0001799_main.jpg?20191118104245&q=80&rw=750&rh=536"
-                          , position = Novel.Right
-                          }
-                        , { text_ = ":)"
-                          , name = Just "Me"
-                          , image = Just "https://rimage.gnst.jp/livejapan.com/public/article/detail/a/00/01/a0001799/img/basic/a0001799_main.jpg?20191118104245&q=80&rw=750&rh=536"
-                          , position = Novel.Right
-                          }
-                        , { text_ = "เค้กที่มีสีแดงเข้ม (4)"
-                          , name = Nothing
-                          , image = Nothing
-                          , position = Novel.Center
-                          }
-                        , { text_ = "07:54"
-                          , name = Nothing
-                          , image = Nothing
-                          , position = Novel.Center
-                          }
-                        , { text_ = "ตื่นกันยัง"
-                          , name = Just "rene"
-                          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-                          , position = Novel.Left
-                          }
-                        , { text_ = "ยัง"
-                          , name = Just "joyaaaaaa."
-                          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
-                          , position = Novel.Left
-                          }
-                        , { text_ = "แล้วนี่ใครตอบ"
-                          , name = Just "rene"
-                          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-                          , position = Novel.Left
-                          }
-                        , { text_ = "ตื่นละ"
-                          , name = Just "yemmie 🍰"
-                          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-                          , position = Novel.Right
-                          }
-                        , { text_ = "ทักมาแต่เช้าคือมีไร"
-                          , name = Just "yemmie 🍰"
-                          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-                          , position = Novel.Right
-                          }
-                        , { text_ = "ไม่มีไร"
-                          , name = Just "rene"
-                          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
-                          , position = Novel.Left
-                          }
-                        , { text_ = "เอ๊า"
-                          , name = Just "yemmie 🍰"
-                          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
-                          , position = Novel.Right
-                          }
-                        , { text_ = "เอ๊า"
-                          , name = Just "joyaaaaaa."
-                          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
-                          , position = Novel.Left
-                          }
-                        ]
-
-                    -- Reminder : If chats.length == data.length -> END CHAPTER
-                    , chats = []
-                    }
-          }
-        ]
-    , description = "I've got a ticket for a world where we belong So would you be my baby? #ReneYem"
-    , title = "Fly me to the moon 🌕"
-    , image = "https://s359.kapook.com/pagebuilder/4da124f1-80a6-4278-b9b3-9b179d8582e4.jpg"
-    , author = "me"
-    }
-
-
 update : Msg -> Model -> Model
 update msg model =
     case msg of
@@ -111,12 +26,12 @@ update msg model =
             model
 
 
-view : (Msg -> msg) -> Model -> Html msg
-view toMsg model =
+view : (Msg -> msg) -> (Int -> msg) -> Model -> Html msg
+view toMsg contentsClicked model =
     div [ class "h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle model ]
-        , viewChapters model.novel
+        , viewChapters contentsClicked model.novel
         ]
 
 
@@ -158,12 +73,15 @@ viewTags =
         ]
 
 
-viewChapters : List Novel.Novel -> Html msg
-viewChapters novel =
+viewChapters : (Int -> msg) -> List Novel.Novel -> Html msg
+viewChapters contentsClicked novel =
     div [ class "mt-2" ] <|
         List.map
             (\n ->
-                div [ class "flex flex-row h-48 mb-2" ]
+                div
+                    [ class "flex flex-row h-48 mb-2 cursor-pointer"
+                    , onClick <| contentsClicked n.chapter
+                    ]
                     [ div [ class "w-40" ]
                         [ img [ src n.image, class "h-full w-full object-cover" ] []
                         ]

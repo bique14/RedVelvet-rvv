@@ -50,7 +50,7 @@ type Position
 init : Model
 init =
     { novel =
-        [ { image = "String"
+        [ { image = "https://cdn.readawrite.com/publicassets/2137016/images/IMG_20200107_222057.jpg"
           , chapter = 1
           , title = "Fly me to the moon 🌕"
           , description = "- Prologue -"
@@ -123,9 +123,62 @@ init =
                     , chats = []
                     }
           }
+        , { image = "https://cdn.readawrite.com/publicassets/2137016/images/IMG_20200107_222057.jpg"
+          , chapter = 2
+          , title = "Fly me to the moon 🌕"
+          , description = "- เวลาเธอยิ้ม -"
+          , body =
+                Chat
+                    { data =
+                        [ { text_ = "เค้กที่มีสีแดงเข้ม (4)"
+                          , name = Nothing
+                          , image = Nothing
+                          , position = Center
+                          }
+                        , { text_ = "17:54"
+                          , name = Nothing
+                          , image = Nothing
+                          , position = Center
+                          }
+                        , { text_ = "เมื่อวานแย่มาก"
+                          , name = Just "rene"
+                          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
+                          , position = Left
+                          }
+                        , { text_ = "ทำไม"
+                          , name = Just "joyaaaaaa."
+                          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
+                          , position = Left
+                          }
+                        , { text_ = "ไม่บอก"
+                          , name = Just "rene"
+                          , image = Just "https://pbs.twimg.com/profile_images/575553189128241152/0pcpSuBj.jpeg"
+                          , position = Left
+                          }
+                        , { text_ = "เอ้า"
+                          , name = Just "yemmie 🍰"
+                          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
+                          , position = Right
+                          }
+                        , { text_ = "อะไรของมึง"
+                          , name = Just "yemmie 🍰"
+                          , image = Just "https://f.ptcdn.info/719/056/000/p5y7d52h0K76U7UOSr-o.jpg"
+                          , position = Right
+                          }
+                        , { text_ = "อิบ้า"
+                          , name = Just "joyaaaaaa."
+                          , image = Just "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRE46wbtwIsKheBdyAbkkViBAhG3fi2HaeCXwt3CT4B_IBFU2VU&usqp=CAU"
+                          , position = Left
+                          }
+                        ]
+
+                    -- Reminder : If chats.length == data.length -> END CHAPTER
+                    , chats = []
+                    }
+          }
         ]
     , description = "RENE YEM"
     , title = "Fly me to the moon 🌕"
-    , image = "String"
+    , image = "https://s359.kapook.com/pagebuilder/4da124f1-80a6-4278-b9b3-9b179d8582e4.jpg"
     , author = "me"
     }

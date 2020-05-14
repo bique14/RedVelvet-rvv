@@ -38,15 +38,12 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( model.state, msg ) of
-        ( Novel model_, NovelMsg msg_ ) ->
+        ( TableContents model_, TableContentsMsg (TableContents.ContentsClicked chapter) ) ->
             let
-                updated : ( NovelPages.Model, Cmd NovelPages.Msg )
-                updated =
-                    NovelPages.update msg_ model_
+                _ =
+                    Debug.log "chapter" chapter
             in
-            ( { model | state = Novel <| Tuple.first updated }
-            , Cmd.map NovelMsg <| Tuple.second updated
-            )
+            ( model, Cmd.none )
 
         ( TableContents model_, TableContentsMsg msg_ ) ->
             let
@@ -56,6 +53,16 @@ update msg model =
             in
             ( { model | state = TableContents <| Tuple.first updated }
             , Cmd.map TableContentsMsg <| Tuple.second updated
+            )
+
+        ( Novel model_, NovelMsg msg_ ) ->
+            let
+                updated : ( NovelPages.Model, Cmd NovelPages.Msg )
+                updated =
+                    NovelPages.update msg_ model_
+            in
+            ( { model | state = Novel <| Tuple.first updated }
+            , Cmd.map NovelMsg <| Tuple.second updated
             )
 
         _ ->

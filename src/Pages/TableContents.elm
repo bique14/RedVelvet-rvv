@@ -8,6 +8,7 @@ module Pages.TableContents exposing
 
 import Components.TableContents as TableContents
 import Html.Styled exposing (..)
+import Novel
 
 
 type Model
@@ -17,11 +18,12 @@ type Model
 type Msg
     = NoOp
     | TableContentsMsg TableContents.Msg
+    | ContentsClicked Int
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( TableContents TableContents.init, Cmd.none )
+    ( TableContents Novel.init, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -45,4 +47,5 @@ view model =
         TableContents model_ ->
             TableContents.view
                 TableContentsMsg
+                ContentsClicked
                 model_
