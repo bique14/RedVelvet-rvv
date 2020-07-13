@@ -28,6 +28,8 @@ update msg model =
 
 view : (Msg -> msg) -> (Int -> msg) -> Model -> Html msg
 view toMsg contentsClicked model =
+    -- TODO: Mobile screen : class "h-sm:p-2 h-sm:my-3 h-640:p-2 h-640:my-3"
+    -- Add tailwind.config.js
     div [ class "h-full w-1/2 m-auto" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle model ]

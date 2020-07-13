@@ -82,13 +82,13 @@ viewTitle onBackClicked { title, description } =
 
 
 viewNovelType : Model -> Html msg
-viewNovelType { body } =
+viewNovelType { description, body } =
     case body of
         Novel.Chat { data, chats } ->
             viewChats chats
 
         Novel.Story { text_ } ->
-            div [] [ text "Not develop yet" ]
+            viewStory description text_
 
 
 viewChats : List Novel.ChatDetails -> Html msg
@@ -187,3 +187,12 @@ viewButton toMsg { body } =
 
         Novel.Story { text_ } ->
             div [ class "hidden" ] []
+
+
+viewStory : String -> String -> Html msg
+viewStory description story =
+    div [ class "bg-gray-900 pt-4 overflow-auto h-full px-16" ]
+        [ h1 [ class "text-red-600 text-4xl text-center font-bold border-b mt-6 pb-10" ] [ text description ]
+        , pre [ class "whitespace-pre-wrap font-sans text-white mt-8 text-xl" ] [ text story ]
+        , h1 [ class "text-red-600 text-4xl text-center font-bold border-t mt-10 py-10" ] [ text "END" ]
+        ]
