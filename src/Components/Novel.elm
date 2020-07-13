@@ -19,6 +19,7 @@ type alias Model =
     , description : String
     , body : NovelType
     , fontSize : String
+    , isEnd : Bool
     }
 
 
@@ -51,8 +52,12 @@ update msg model =
                             in
                             { model | body = Novel.Chat { data = List.drop 1 data, chats = newChats } }
 
-                        _ ->
-                            model
+                        [] ->
+                            let
+                                _ =
+                                    Debug.log "end" ""
+                            in
+                            { model | isEnd = True }
 
                 Novel.Story { text_ } ->
                     model
@@ -213,7 +218,7 @@ viewBubbles { text_, name, image, position } =
 
 
 viewButton : (Msg -> msg) -> Model -> Html msg
-viewButton toMsg { body } =
+viewButton toMsg { body, isEnd } =
     case body of
         Novel.Chat { data, chats } ->
             div
@@ -225,7 +230,12 @@ viewButton toMsg { body } =
                         [ class "w-full h-full font-bold"
                         , onClick Read
                         ]
-                        [ text "Tap to read" ]
+                        [ if isEnd then
+                            text "End"
+
+                          else
+                            text "Tap to read"
+                        ]
                 ]
 
         Novel.Story { text_ } ->

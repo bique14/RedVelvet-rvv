@@ -4,4 +4,4 @@ TODO List
 - [ ] Auto scroll down (chat type)
 - [x] Develop story type
 - [ ] Add Facebook OG
-- [ ] Check if end of chapter (chat type)
+- [x] Check if end of chapter (chat type)

@@ -30,6 +30,7 @@ toNovel novel =
     , description = novel.description
     , body = novel.body
     , fontSize = "text-base"
+    , isEnd = False
     }
 
 
