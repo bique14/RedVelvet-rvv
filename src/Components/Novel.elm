@@ -53,10 +53,6 @@ update msg model =
                             { model | body = Novel.Chat { data = List.drop 1 data, chats = newChats } }
 
                         [] ->
-                            let
-                                _ =
-                                    Debug.log "end" ""
-                            in
                             { model | isEnd = True }
 
                 Novel.Story { text_ } ->
