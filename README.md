@@ -1,5 +1,5 @@
 TODO List
-- [ ] Support mobile screen
+- [x] Support mobile screen
 - [x] Number of chapter
 - [ ] Auto scroll down (chat type)
 - [x] Develop story type

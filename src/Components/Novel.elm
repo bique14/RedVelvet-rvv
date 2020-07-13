@@ -53,7 +53,7 @@ update msg model =
 
 view : (Msg -> msg) -> msg -> Model -> Html msg
 view toMsg onBackClicked model =
-    div [ class "bg-red-300 h-full w-1/2 m-auto" ]
+    div [ class "bg-red-300 h-full w-1/2 m-auto mobile:w-full" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle onBackClicked model
             , viewNovelType model
@@ -192,7 +192,7 @@ viewButton toMsg { body } =
 viewStory : String -> String -> Html msg
 viewStory description story =
     div [ class "bg-gray-900 pt-4 overflow-auto h-full px-16" ]
-        [ h1 [ class "text-red-600 text-4xl text-center font-bold border-b mt-6 pb-10" ] [ text description ]
-        , pre [ class "whitespace-pre-wrap font-sans text-white mt-8 text-xl" ] [ text story ]
+        [ h1 [ class "text-red-600 text-4xl text-center font-bold border-b mt-6 pb-10 mobile-w:text-xl" ] [ text description ]
+        , pre [ class "whitespace-pre-wrap font-sans text-white mt-8 text-xl mobile-w:text-base" ] [ text story ]
         , h1 [ class "text-red-600 text-4xl text-center font-bold border-t mt-10 py-10" ] [ text "END" ]
         ]

@@ -30,7 +30,7 @@ view : (Msg -> msg) -> (Int -> msg) -> Model -> Html msg
 view toMsg contentsClicked model =
     -- TODO: Mobile screen : class "h-sm:p-2 h-sm:my-3 h-640:p-2 h-640:my-3"
     -- Add tailwind.config.js
-    div [ class "h-full w-1/2 m-auto" ]
+    div [ class "h-full w-1/2 m-auto mobile:w-full" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle model ]
         , viewChapters contentsClicked model.novel
@@ -63,7 +63,7 @@ viewTags novel =
         [ div [ class "border-white border-t border-b text-center text-red-600 font-bold py-4 mx-10" ]
             [ span [] [ text "ทุ่งดอกไม้" ]
             ]
-        , div [ class "flex justify-center my-3" ] <|
+        , div [ class "flex justify-center my-3 mobile:text-xs" ] <|
             List.map
                 (\t ->
                     span [ class "border border-red-600 rounded text-red-600 font-bold px-2 py-1 mx-1" ]
