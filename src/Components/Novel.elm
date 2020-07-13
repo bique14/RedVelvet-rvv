@@ -18,6 +18,7 @@ type alias Model =
     , title : String
     , description : String
     , body : NovelType
+    , fontSize : String
     }
 
 
@@ -27,6 +28,12 @@ type alias NovelType =
 
 type Msg
     = Read
+    | FontSize FontSize
+
+
+type FontSize
+    = Increase
+    | Decrease
 
 
 update : Msg -> Model -> Model
@@ -50,13 +57,49 @@ update msg model =
                 Novel.Story { text_ } ->
                     model
 
+        FontSize size ->
+            case size of
+                Increase ->
+                    case model.fontSize of
+                        "text-xs" ->
+                            { model | fontSize = "text-sm" }
+
+                        "text-sm" ->
+                            { model | fontSize = "text-base" }
+
+                        "text-base" ->
+                            { model | fontSize = "text-lg" }
+
+                        "text-lg" ->
+                            { model | fontSize = "text-xl" }
+
+                        _ ->
+                            model
+
+                Decrease ->
+                    case model.fontSize of
+                        "text-xl" ->
+                            { model | fontSize = "text-lg" }
+
+                        "text-lg" ->
+                            { model | fontSize = "text-base" }
+
+                        "text-base" ->
+                            { model | fontSize = "text-sm" }
+
+                        "text-sm" ->
+                            { model | fontSize = "text-xs" }
+
+                        _ ->
+                            model
+
 
 view : (Msg -> msg) -> msg -> Model -> Html msg
 view toMsg onBackClicked model =
     div [ class "bg-red-300 h-full w-1/2 m-auto mobile:w-full" ]
         [ div [ class "flex flex-col h-full" ]
             [ viewTitle onBackClicked model
-            , viewNovelType model
+            , viewNovelType toMsg model
             , viewButton toMsg model
             ]
         ]
@@ -81,14 +124,14 @@ viewTitle onBackClicked { title, description } =
         ]
 
 
-viewNovelType : Model -> Html msg
-viewNovelType { description, body } =
+viewNovelType : (Msg -> msg) -> Model -> Html msg
+viewNovelType toMsg { description, body, fontSize } =
     case body of
         Novel.Chat { data, chats } ->
             viewChats chats
 
         Novel.Story { text_ } ->
-            viewStory description text_
+            viewStory toMsg description text_ fontSize
 
 
 viewChats : List Novel.ChatDetails -> Html msg
@@ -189,10 +232,31 @@ viewButton toMsg { body } =
             div [ class "hidden" ] []
 
 
-viewStory : String -> String -> Html msg
-viewStory description story =
-    div [ class "bg-gray-900 pt-4 overflow-auto h-full px-16" ]
-        [ h1 [ class "text-red-600 text-4xl text-center font-bold border-b mt-6 pb-10 mobile-w:text-xl" ] [ text description ]
-        , pre [ class "whitespace-pre-wrap font-sans text-white mt-8 text-xl mobile-w:text-base" ] [ text story ]
+viewStory : (Msg -> msg) -> String -> String -> String -> Html msg
+viewStory toMsg description story fontSize =
+    div [ class "bg-gray-900 pt-4 overflow-auto h-full px-16 relative" ]
+        [ map toMsg <|
+            div
+                [ class "flex flex-col absolute bg-black text-black"
+                , style "top" "1rem"
+                , style "right" "1rem"
+                ]
+                [ button
+                    [ class "bg-white border px-2 rounded"
+                    , onClick <| FontSize Increase
+                    ]
+                    [ text "+aA" ]
+                , button
+                    [ class "bg-white border px-2 rounded mt-2"
+                    , onClick <| FontSize Decrease
+                    ]
+                    [ text "-aA" ]
+                ]
+        , h1 [ class "text-red-600 text-4xl text-center font-bold border-b mt-6 pb-10 mobile-w:text-xl" ] [ text description ]
+        , pre
+            [ class "whitespace-pre-wrap font-sans text-white mt-8"
+            , class fontSize
+            ]
+            [ text story ]
         , h1 [ class "text-red-600 text-4xl text-center font-bold border-t mt-10 py-10" ] [ text "END" ]
         ]
