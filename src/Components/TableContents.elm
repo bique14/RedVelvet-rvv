@@ -69,7 +69,7 @@ viewTags novel =
                     span [ class "border border-red-600 rounded text-red-600 font-bold px-2 py-1 mx-1" ]
                         [ text t ]
                 )
-                [ "Irene", "Wendy", "Seulgi", "Joy", "yeri", "Wenrene", "Joyri", "Redvelvet" ]
+                [ "Wenrene", "Joyri", "Redvelvet" ]
         , div [ class "text-white text-center" ]
             [ span []
                 [ text <| String.concat [ "# ", String.fromInt (List.length novel), " บท" ] ]
